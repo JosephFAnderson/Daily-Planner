@@ -1,10 +1,9 @@
 // Display current day
 var today = moment();
 var currentHour = today.hour();
-var hourEl = $('.hour');
 var rowEl = $(".customRow");
 var textAreaEl = $("textarea");
-var dayPlan = JSON.parse(localStorage.getItem("dayPlan")) || [];
+var dayPlan = JSON.parse(localStorage.getItem(today.format("dddd[, ]Do[ of ] MMMM"))) || [];
 
 // Display any locally stored information to the page
 if (dayPlan.length > 0) {
@@ -59,7 +58,7 @@ function saveButtonHandler(e) {
             dayPlan.push(plan);
         }
     }    
-    localStorage.setItem("dayPlan", JSON.stringify(dayPlan));      
+    localStorage.setItem(today.format("dddd[, ]Do[ of ] MMMM"), JSON.stringify(dayPlan));      
 }
 
 rowEl.on('click', '.saveBtn', saveButtonHandler);
