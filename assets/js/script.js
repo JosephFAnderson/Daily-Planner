@@ -1,10 +1,17 @@
 // Display current day
 var today = moment();
 var currentHour = today.hour();
+var hourEl = $('.hour');
 var rowEl = $(".customRow");
 var textAreaEl = $("textarea");
 var dayPlan = JSON.parse(localStorage.getItem("dayPlan")) || [];
 
+// Display any locally stored information to the page
+if (dayPlan.length > 0) {
+    for (var i = 0; i < dayPlan.length; i++) {        
+        $("p:contains('" + dayPlan[i].eventHour + "')").siblings('textarea').text(dayPlan[i].eventText);        
+    }
+}
 
 // Display current day
 $("#currentDay").text(today.format("dddd[, ]Do[ of ] MMMM"));
@@ -25,6 +32,7 @@ textAreaEl.each(function (index) {
 function saveButtonHandler(e) {
     var plan = {};    
     
+    // Check for click on <button> or <i>
     if($(e.target).is('i')) {
         plan.eventText = $(e.target).parent('button').siblings('textarea').val()
         plan.eventHour = $(e.target).parent('button').siblings('p').text()
@@ -38,6 +46,8 @@ function saveButtonHandler(e) {
         dayPlan.push(plan);
     }else {
         var doesContain = false;
+
+        // Check to see if they are updating time block or submitting to a new one
         for(var i = 0; i < dayPlan.length; i++) {
             if (dayPlan[i].eventHour === plan.eventHour) {
                 dayPlan[i].eventText = plan.eventText
@@ -48,8 +58,7 @@ function saveButtonHandler(e) {
         if(!doesContain) {
             dayPlan.push(plan);
         }
-    }
-    
+    }    
     localStorage.setItem("dayPlan", JSON.stringify(dayPlan));      
 }
 
