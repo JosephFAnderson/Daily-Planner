@@ -57,7 +57,8 @@ function saveButtonHandler(e) {
         if(!doesContain) {
             dayPlan.push(plan);
         }
-    }    
+    }  
+    // Locally store the dayPlan to a key associated to today's date  
     localStorage.setItem(today.format("dddd[, ]Do[ of ] MMMM"), JSON.stringify(dayPlan));      
 }
 
